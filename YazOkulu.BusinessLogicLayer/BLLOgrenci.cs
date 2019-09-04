@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,6 +17,18 @@ namespace YazOkulu.BusinessLogicLayer
                 return DALOgrenci.OgrenciEkle(ogrenci);
             }
             return -1;
+        }
+        public static List<EntityOgrenci> OgrenciListesi()
+        {
+            return DALOgrenci.OgrenciListesi();
+        }
+        public static bool OgrenciSil(int OgrenciID)
+        {
+            if (OgrenciID != null)
+            {
+                return DALOgrenci.OgrenciSil(OgrenciID);
+            }
+            return false;
         }
     }
 }
