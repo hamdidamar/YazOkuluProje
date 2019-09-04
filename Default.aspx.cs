@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -17,14 +17,14 @@ public partial class _Default : System.Web.UI.Page
     EntityOgrenci entityogrenci = new EntityOgrenci();
     protected void Btn_OgrenciEkle_Click(object sender, EventArgs e)
     {
-        
-        entityogrenci.OgrenciAd = "Hasan";
-        entityogrenci.OgrenciSoyad = "Kulmaz";
-        entityogrenci.OgrenciNumara = "968574123";
-        entityogrenci.OgrenciMail = "hasan.kulmaz@hotmail.com";
-        entityogrenci.OgrenciSifre = "456987";
-        entityogrenci.OgrenciFotograf = "FotoYol";
-        entityogrenci.OgrenciBakiye = 150;
+
+        entityogrenci.OgrenciAd = TxtOgrenciAd.Text;
+        entityogrenci.OgrenciSoyad = TxtOgrenciSoyad.Text;
+        entityogrenci.OgrenciNumara = TxtOgrenciNumara.Text;
+        entityogrenci.OgrenciMail = TxtOgrenciMail.Text;
+        entityogrenci.OgrenciSifre = TxtOgrenciSifre.Text;
+        entityogrenci.OgrenciFotograf = TxtOgrenciFotograf.Text;
+        entityogrenci.OgrenciBakiye = double.Parse(TxtOgrenciBakiye.Text);
         BLLOgrenci.OgrenciEkle(entityogrenci);
 
     }
