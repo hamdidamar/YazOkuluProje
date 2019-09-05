@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,6 +28,7 @@ namespace YazOkulu.DataAccessLayer
             cmd.Parameters.AddWithValue("@p7", ogrenci.OgrenciBakiye);
             return cmd.ExecuteNonQuery();
         }
+
         public static List<EntityOgrenci> OgrenciListesi()
         {
             List<EntityOgrenci> degerler = new List<EntityOgrenci>();
@@ -54,6 +55,7 @@ namespace YazOkulu.DataAccessLayer
             dr.Close();
             return degerler;
         }
+
         public static bool OgrenciSil(int OgrenciID)
         {
             SqlCommand cmd = new SqlCommand("DELETE FROM TBL_OGRENCILER WHERE OgrenciID = @p1", DBHelper.bgl);
@@ -64,6 +66,51 @@ namespace YazOkulu.DataAccessLayer
             cmd.Parameters.AddWithValue("@p1", OgrenciID);
             return cmd.ExecuteNonQuery() > 0;
 
+        }
+
+        public static List<EntityOgrenci> OgrenciDetay(int OgrenciID)
+        {
+            List<EntityOgrenci> degerler = new List<EntityOgrenci>();
+            SqlCommand cmd = new SqlCommand("SELECT * FROM TBL_OGRENCILER WHERE OgrenciID = @p1", DBHelper.bgl);
+            cmd.Parameters.AddWithValue("@p1", OgrenciID);
+            if (cmd.Connection.State != ConnectionState.Open)
+            {
+                cmd.Connection.Open();
+            }
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                EntityOgrenci ogrenci = new EntityOgrenci();
+                ogrenci.OgrenciAd = dr["OgrenciAd"].ToString();
+                ogrenci.OgrenciSoyad = dr["OgrenciSoyad"].ToString();
+                ogrenci.OgrenciNumara = dr["OgrenciNumara"].ToString();
+                ogrenci.OgrenciMail = dr["OgrenciMail"].ToString();
+                ogrenci.OgrenciSifre = dr["OgrenciSifre"].ToString();
+                ogrenci.OgrenciFotograf = dr["OgrenciFotograf"].ToString();
+                ogrenci.OgrenciBakiye = Convert.ToDouble(dr["OgrenciBakiye"].ToString());
+
+                degerler.Add(ogrenci);
+            }
+            dr.Close();
+            return degerler;
+        }
+
+        public static bool OgrenciGuncelle(EntityOgrenci ogrenci)
+        {
+            SqlCommand cmd = new SqlCommand("UPDATE TBL_OGRENCILER SET OgrenciAd = @p1,OgrenciSoyad = @p2,OgrenciNumara = @p3,OgrenciMail = @p4,OgrenciSifre = @p5,OgrenciFotograf = @p6,OgrenciBakiye = @p7 WHERE OgrenciID = @p8", DBHelper.bgl);
+            if (cmd.Connection.State != ConnectionState.Open)
+            {
+                cmd.Connection.Open();
+            }
+            cmd.Parameters.AddWithValue("@p1", ogrenci.OgrenciAd);
+            cmd.Parameters.AddWithValue("@p2", ogrenci.OgrenciSoyad);
+            cmd.Parameters.AddWithValue("@p3", ogrenci.OgrenciNumara);
+            cmd.Parameters.AddWithValue("@p4", ogrenci.OgrenciMail);
+            cmd.Parameters.AddWithValue("@p5", ogrenci.OgrenciSifre);
+            cmd.Parameters.AddWithValue("@p6", ogrenci.OgrenciFotograf);
+            cmd.Parameters.AddWithValue("@p7", ogrenci.OgrenciBakiye);
+            cmd.Parameters.AddWithValue("@p8", ogrenci.OgrenciId);
+            return cmd.ExecuteNonQuery() > 0;
         }
     }
 }
